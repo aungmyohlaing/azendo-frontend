@@ -68,7 +68,7 @@
             
             <div class="summary-row total-row">
               <span>Total:</span>
-              <span class="total-amount">${{ total.toFixed(2) }}</span>
+              <span class="total-amount">${{ afterDiscount.toFixed(2) }}</span>
             </div>
             
             <div class="cart-actions">
@@ -91,7 +91,7 @@ import { storeToRefs } from 'pinia'
 import type { CartItem } from '~/types'
 
 const cartStore = useCartStore()
-const { items: cartItems, itemCount, total, subtotal, discount } = storeToRefs(cartStore)
+const { items: cartItems, itemCount, subtotal, discount } = storeToRefs(cartStore)
 
 const increaseQuantity = (item: CartItem) => {
   cartStore.updateQuantity(item.id, item.quantity + 1)
@@ -112,6 +112,10 @@ const clearCart = () => {
     cartStore.clearCart()
   }
 }
+
+const afterDiscount = computed(() => {
+  return subtotal.value - discount.value
+})
 
 // Remove icon component
 const RemoveIcon = () => h('svg', {

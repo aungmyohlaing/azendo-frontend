@@ -1,33 +1,33 @@
 <template>
   <div class="product-detail">
     <div class="container">
-      <div v-if="loading" class="loading-container">
-        <div class="spinner"></div>
-      </div>
+      <Loading v-if="loading" message="Loading Details..." />
       
       <div v-else-if="error" class="alert alert-error">
         {{ error }}
       </div>
       
       <div v-else-if="product" class="product-content">
+        <div>
+        <Breadcrumb :items="breadcrumbItems" />
         <div class="product-gallery">
-          <div class="main-image">
-            <img :src="selectedImage" :alt="product.title" />
-          </div>
-          <div class="thumbnail-list">
-            <button
-              v-for="(image, index) in product.images"
-              :key="index"
-              @click="selectedImage = image"
-              class="thumbnail-item"
-              :class="{ active: selectedImage === image }"
-            >
-              <img :src="image" :alt="`${product.title} ${index + 1}`" />
-            </button>
-          </div>
+            <div class="main-image">
+              <img :src="selectedImage" :alt="product.title" />
+            </div>
+            <div class="thumbnail-list">
+              <button
+                v-for="(image, index) in product.images"
+                :key="index"
+                @click="selectedImage = image"
+                class="thumbnail-item"
+                :class="{ active: selectedImage === image }"
+              >
+                <img :src="image" :alt="`${product.title} ${index + 1}`" />
+              </button>
+            </div>
         </div>
-        
-        <div class="product-details">
+      </div>
+          <div class="product-details">
           <div class="product-header">
             <h1>{{ product.title }}</h1>
             <p class="product-brand">by {{ product.brand }}</p>
@@ -98,6 +98,7 @@
 
 <script setup lang="ts">
 import type { Product } from '~/types'
+import Breadcrumb from '~/components/Breadcrumb.vue'
 
 const route = useRoute()
 const cartStore = useCartStore()
@@ -116,6 +117,17 @@ const discountedPrice = computed(() => {
   if (!product.value) return 0
   const discount = (product.value.price * product.value.discountPercentage) / 100
   return product.value.price - discount
+})
+
+const breadcrumbItems = computed(() => {
+  if (!product.value) return []
+  
+  return [
+    { label: 'Home', href: '/' },
+    { label: 'Products', href: '/products' },
+    { label: formatCategoryName(product.value.category), href: `/products?category=${product.value.category}` },
+    { label: product.value.title }
+  ]
 })
 
 const getStars = (rating: number) => {

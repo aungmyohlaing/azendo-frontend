@@ -9,6 +9,12 @@
             </NuxtLink>
             
             <div class="nav-menu" :class="{ 'active': mobileMenuOpen }">
+              <div class="nav-menu-close-button" @click="closeMobileMenu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
+              </div>
+              
               <NuxtLink to="/" class="nav-link" @click="closeMobileMenu">Home</NuxtLink>
               <NuxtLink to="/products" class="nav-link" @click="closeMobileMenu">Products</NuxtLink>
               <NuxtLink to="/categories" class="nav-link" @click="closeMobileMenu">Categories</NuxtLink>
@@ -35,7 +41,7 @@
               </div>
             </div>
             
-            <button class="mobile-menu-toggle" @click="toggleMobileMenu">
+            <button class="mobile-menu-toggle" @click="toggleMobileMenu">    
               <span></span>
               <span></span>
               <span></span>
@@ -98,7 +104,7 @@ const { itemCount: cartItemCount } = storeToRefs(cartStore)
 const mobileMenuOpen = ref(false)
 const userDropdownOpen = ref(false)
 
-const toggleMobileMenu = () => {
+const toggleMobileMenu = () => {  
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
 
@@ -202,6 +208,17 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.nav-menu-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.2s ease;  
+  display: none;
 }
 
 .nav-link {
@@ -383,8 +400,16 @@ onMounted(() => {
   }
   
   /* Bug: This should be .nav-menu.active but missing the active state toggle */
-  .nav-menu {
+
+  /* .nav-menu {
     left: -100%;
+  } */
+  .nav-menu-close-button {
+    display: block;
+}
+
+  .nav-menu.active {
+    left: 0;
   }
   
   .nav-actions {

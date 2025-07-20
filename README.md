@@ -1,263 +1,343 @@
-# E-Commerce Store - Developer Assessment
+# 🛍️ Azendo - Nuxt 3 E-Commerce Store
 
-This is a **Nuxt 3 e-commerce application** that is **80% complete**. Your task is to complete the remaining 20% to demonstrate your frontend development skills.
+A modern, responsive e-commerce application built with **Nuxt 3**, featuring a complete product catalog, shopping cart, and checkout system.
 
-## 🚀 Getting Started
+## ✨ Features Implemented
 
-### Prerequisites
-- Node.js (v18 or later)
-- npm or yarn
+### 🏪 Product Catalog
+- **Product Grid/List View**: Toggle between grid and list layouts
+- **Advanced Search**: Real-time search with debouncing
+- **Comprehensive Filtering**:
+  - Category filter (dropdown)
+  - Price range filter (slider)
+  - Brand filter (checkbox list)
+  - Rating filter (star rating)
+  - Active filter badges with easy removal
+- **Sorting Options**: Price (asc/desc), rating, popularity
+- **Pagination**: Efficient product pagination
+- **Responsive Design**: Mobile-first approach with breakpoints
 
-### Installation
-```bash
-# Install dependencies
-npm install
+### 🛒 Shopping Cart
+- **Add/Remove Items**: Seamless cart management
+- **Quantity Controls**: Update item quantities
+- **Real-time Calculations**: Accurate pricing with discounts
+- **Persistent Storage**: Cart state maintained across sessions
 
-# Start development server
-npm run dev
 
-# Build for production
-npm run build
-```
 
-## 🎯 Your Tasks (20% to Complete)
+### 💳 Checkout System
+- **Order Review**: Complete order summary
+- **Shipping Information**: Address collection and validation
+- **Payment Integration**: Credit card form with validation
+- **Order Confirmation**: Thank you page with order details
 
-Use the provided public API endpoints from DummyJSON – no need to set up a backend.
+### 🎨 UI/UX Features
+- **Modern Design**: Clean, professional interface
+- **Responsive Layout**: Works on all device sizes
+- **Loading Animations**: Smooth user experience
+- **Error Handling**: User-friendly error messages
+- **Accessibility**: Keyboard navigation and screen reader support
 
-### 1. **Product Catalog Page** (Main Task - `/pages/products/index.vue`)
-**Location**: `/pages/products/index.vue`
+## 🛠️ Technologies Used
 
-**Current State**: Placeholder with implementation hints
+### Frontend Framework
+- **Nuxt 3** - Vue.js meta-framework with SSR
+- **Vue 3** - Progressive JavaScript framework
+- **TypeScript** - Type-safe JavaScript development
 
-**Requirements**:
-- [ ] Implement product grid with responsive design
-- [ ] Add search functionality with debouncing
-- [ ] Create category filter (dropdown)
-- [ ] Add price range filter (slider or inputs)
-- [ ] Implement brand filter (checkbox list)
-- [ ] Add rating filter (star rating)
-- [ ] Create sort options (price, rating, popularity)
-- [ ] Add pagination or infinite scroll
-- [ ] Implement grid/list view toggle
-- [ ] Add loading states and error handling
-- [ ] Make responsive for mobile devices
+### State Management
+- **Pinia** - Intuitive Vue store
+- **@pinia/nuxt** - Nuxt 3 integration
 
-**API Endpoints to Use**:
-- `GET /products` - Get all products
-- `GET /products/search?q=query` - Search products
-- `GET /products/categories` - Get categories
-- `GET /products/category/[category]` - Get products by category
+## 📁 Code Organization & File Splitting
 
-### 2. **Bug Fixes**
+### 🧩 **Component-Based Architecture**
+The application follows a modular component approach for better maintainability and reusability:
 
-#### Cart Calculation Bug
-**Location**: `/stores/cart.ts` (line 18-22)
+#### **Reusable Components** (`/components/`)
+- **ProductCard.vue** - Individual product display with grid layout
+- **ProductCardListView.vue** - Product display optimized for list view
+- **ProductFilters.vue** - Advanced filtering system (category, price, brand, rating)
+- **FilterBadges.vue** - Active filter display with removal functionality
+- **SearchBar.vue** - Debounced search with clear functionality
+- **ProductPagination.vue** - Pagination controls with page navigation
+- **Loading.vue** - Reusable loading states and spinners
+- **Breadcrumb.vue** - Navigation breadcrumbs
 
-**Issue**: Cart total calculation is incorrect
-```typescript
-// Bug: Should multiply by quantity, but we're adding it instead
-const itemTotal = item.product.price + item.quantity
-```
+#### **Benefits of Component Splitting:**
+- **Reusability**: Components can be used across multiple pages
+- **Maintainability**: Each component has a single responsibility
+- **Testing**: Individual components can be tested in isolation
+- **Performance**: Components can be lazy-loaded when needed
 
-**Fix**: Change to proper multiplication:
-```typescript
-const itemTotal = item.product.price * item.quantity
-```
+### 🏪 **Store-Based State Management** (`/stores/`)
+Centralized state management using Pinia stores for better data flow:
 
-#### Mobile Navigation Bug
-**Location**: `/layouts/default.vue` (line 229)
+#### **Products Store** (`stores/products.ts`)
+- **Product Data**: Centralized product catalog management
+- **Filtering Logic**: Search, category, price, brand, and rating filters
+- **Pagination State**: Current page, items per page, total pages
+- **Sorting Options**: Price, rating, and popularity sorting
+- **API Integration**: Product fetching and caching
 
-**Issue**: Mobile menu doesn't open when hamburger is clicked
+#### **Benefits of Store Splitting:**
+- **Separation of Concerns**: Each store handles specific domain logic
+- **Data Consistency**: Centralized state prevents data duplication
+- **Reactive Updates**: Changes automatically propagate to all components
+- **Type Safety**: TypeScript interfaces ensure data integrity
 
-**Fix**: The CSS class selector is missing the `.active` state
+### ⚙️ **Constants Management** (`/constants/`)
+Application-wide constants for configuration and maintainability:
 
-### 3. **Missing Features**
+#### **Constants File** (`constants/index.ts`)
+- **Search Settings**: Debounce timing and search parameters
+- **Pagination**: Default page sizes and limits
+- **Filter Options**: Default filter values and ranges
 
-#### Payment Integration
-**Location**: `/pages/checkout.vue`
+#### **Benefits of Constants Splitting:**
+- **Configuration Management**: Easy to modify application settings
+- **Code Maintainability**: Single source of truth for constants
+- **Environment Flexibility**: Easy to switch between development/production
+- **Reduced Magic Numbers**: Meaningful constant names instead of hardcoded values
 
-**Requirements**:
-- [ ] Implement credit card form with validation
-- [ ] Add payment method selection
-- [ ] Create card number formatting
-- [ ] Add expiry date and CVV validation
-- [ ] Implement billing address form
+### Styling
+- **Custom CSS** - Tailwind-inspired utility classes
+- **CSS Variables** - Consistent design system
+- **Responsive Design** - Mobile-first approach
 
-#### Order Review
-**Location**: `/pages/checkout.vue`
+### API Integration
+- **DummyJSON API** - Mock e-commerce data for products
+- **RESTful Architecture** - Standard API patterns
+- **Error Handling** - Robust API error management
 
-**Requirements**:
-- [ ] Create order summary with all items
-- [ ] Add shipping information review
-- [ ] Show payment method summary
-- [ ] Add terms and conditions checkbox
-- [ ] Implement place order functionality
+### Development Tools
+- **Vue DevTools** - Development debugging
+- **TypeScript** - Static type checking
+- **ESLint** - Code quality enforcement
 
 ## 📁 Project Structure
 
 ```
-/
-├── assets/css/          # Global styles
-├── components/          # Reusable components
-│   └── ProductCard.vue  # Product card component (already complete)
-├── composables/         # Composable functions
-│   ├── useApi.ts       # API utilities
-│   └── useProducts.ts  # Product-related API calls
-├── layouts/            # Layout components
-│   ├── default.vue     # Main layout
-│   ├── auth.vue        # Authentication layout
-│   └── dashboard.vue   # Dashboard layout
-├── middleware/         # Route middleware
-│   ├── auth.ts         # Authentication middleware
-│   └── guest.ts        # Guest middleware
-├── pages/              # Page components
+nuxt3-ecommerce-assessment/
+├── assets/
+│   └── css/
+│       └── main.css              # Global styles and design system
+├── components/                   # Reusable Vue components
+│   ├── Breadcrumb.vue           # Navigation breadcrumbs
+│   ├── FilterBadges.vue         # Active filter display
+│   ├── Loading.vue              # Loading states
+│   ├── ProductCard.vue          # Product grid item
+│   ├── ProductCardListView.vue  # Product list item
+│   ├── ProductFilters.vue       # Advanced filtering
+│   ├── ProductPagination.vue    # Pagination controls
+│   └── SearchBar.vue            # Search functionality
+├── composables/                 # Vue 3 composables
+│   ├── useApi.ts               # API utilities
+│   └── useProducts.ts          # Product data management
+├── constants/
+│   └── index.ts                # Application constants
+├── layouts/                    # Page layouts
+│   └── default.vue            # Main layout
+├── pages/                     # Application pages
+│   ├── about/
+│   │   └── index.vue          # About page
+│   ├── cart.vue               # Shopping cart
+│   ├── checkout.vue           # Checkout process
+│   ├── index.vue              # Homepage
 │   ├── products/
-│   │   ├── index.vue   # 🚧 INCOMPLETE - Main task
-│   │   └── [id].vue    # Product detail page
-│   ├── checkout.vue    # 🚧 INCOMPLETE - Payment section
-│   └── ...
-├── stores/             # Pinia stores
-│   ├── auth.ts         # Authentication store
-│   └── cart.ts         # 🐛 HAS BUG - Cart calculation
-└── types/              # TypeScript definitions
-    └── index.ts        # Type definitions
+│   │   ├── [id].vue           # Product detail
+│   │   └── index.vue          # Product catalog
+│   └── thank-you.vue          # Order confirmation
+├── stores/                    # Pinia stores
+│   ├── cart.ts                # Shopping cart state
+│   └── products.ts            # Product data state
+├── types/                     # TypeScript definitions
+│   └── index.ts               # Type definitions
+├── nuxt.config.ts             # Nuxt configuration
+├── package.json               # Dependencies
+└── tsconfig.json              # TypeScript configuration
 ```
 
-## 🔧 Available Composables
+## 🚀 Getting Started
 
-### `useProducts()`
-```typescript
-const { 
-  getAllProducts,      // Get all products with pagination
-  getProduct,          // Get single product by ID
-  getProductsByCategory, // Get products by category
-  searchProducts,      // Search products by query
-  getCategories,       // Get all categories
-  getFeaturedProducts  // Get featured products
-} = useProducts()
+### Prerequisites
+- **Node.js** (v18 or later)
+- **npm** or **yarn** package manager
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd nuxt3-ecommerce-assessment
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run generate     # Generate static site
+npm run preview      # Preview production build
 ```
 
-### `useApi()`
-```typescript
-const api = useApi()
-await api.get('/products')
-await api.post('/products', data)
-```
+## 🧪 Testing the Application
+
+### 1. **Product Catalog Testing** (`/products`)
+
+#### Search Functionality
+- [ ] Type in the search bar to filter products
+- [ ] Verify debouncing works (no immediate API calls)
+- [ ] Test with various search terms (phones, laptops, etc.)
+
+#### Filtering System
+- [ ] **Category Filter**: Select different categories from dropdown
+- [ ] **Price Range**: Use the slider to filter by price
+- [ ] **Brand Filter**: Check/uncheck brand checkboxes
+- [ ] **Rating Filter**: Select minimum star rating
+- [ ] **Active Filters**: Verify filter badges appear and can be removed
+
+#### Sorting
+- [ ] Test all sort options (Price: Low to High, High to Low, Rating, etc.)
+- [ ] Verify products reorder correctly
+
+#### View Modes
+- [ ] Toggle between Grid and List views
+- [ ] Verify responsive behavior on mobile (auto-switches to grid)
+
+#### Pagination
+- [ ] Navigate through pages
+- [ ] Verify correct number of products per page
+- [ ] Test pagination with filters applied
+
+### 2. **Checkout Process Testing** (`/checkout`)
+
+#### Order Review
+- [ ] Verify cart items are displayed correctly
+- [ ] Check total calculations
+- [ ] Test shipping address form
+
+#### Payment Integration
+- [ ] Fill out credit card form
+- [ ] Test form validation
+- [ ] Verify payment processing
+
+### 3. **Responsive Design Testing**
+
+#### Mobile Testing
+- [ ] Test on mobile devices or browser dev tools
+- [ ] Verify navigation menu works
+- [ ] Check product grid adapts to screen size
+- [ ] Test touch interactions
+
+#### Tablet Testing
+- [ ] Verify layout adapts to tablet screens
+- [ ] Test grid/list view functionality
+
+#### Desktop Testing
+- [ ] Verify full desktop layout
+- [ ] Test all features on large screens
 
 ## 🎨 Design System
 
-### CSS Variables
+### Color Palette
 ```css
-:root {
-  --primary-color: #2563eb;
-  --secondary-color: #64748b;
-  --success-color: #10b981;
-  --danger-color: #ef4444;
-  --warning-color: #f59e0b;
-  --dark-color: #1e293b;
-  --light-color: #f8fafc;
-  --border-color: #e2e8f0;
-  --text-color: #334155;
-  --text-light: #64748b;
-}
+--primary-color: #2563eb    /* Blue */
+--secondary-color: #64748b  /* Gray */
+--success-color: #10b981    /* Green */
+--danger-color: #ef4444     /* Red */
+--warning-color: #f59e0b    /* Orange */
+--dark-color: #1e293b       /* Dark */
+--light-color: #f8fafc      /* Light */
 ```
 
-### Utility Classes
-- `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-outline`
-- `.form-input`, `.form-label`, `.form-group`
-- `.card`, `.card-header`, `.card-body`
-- `.grid`, `.grid-cols-1`, `.grid-cols-2`, etc.
-- `.alert`, `.alert-success`, `.alert-error`
-- `.spinner`, `.loading-container`
+### Typography
+- **Font Family**: System fonts (San Francisco, Segoe UI, Roboto)
+- **Base Size**: 16px
+- **Line Height**: 1.5
+- **Responsive**: Scales appropriately on different devices
 
-## 🌐 API Documentation (DummyJSON)
+### Components
+- **Buttons**: Primary, Secondary, Outline, Danger variants
+- **Forms**: Inputs, selects, textareas with validation states
+- **Cards**: Product cards, info cards with headers/bodies
+- **Alerts**: Success, error, warning, info messages
+- **Loading**: Spinners and skeleton loaders
 
-### Authentication
+## 🔧 Configuration
+
+### Environment Variables
+```env
+# API Configuration
+NUXT_PUBLIC_API_BASE=https://dummyjson.com
+```
+
+### Nuxt Configuration
+- **TypeScript**: Strict mode enabled
+- **DevTools**: Development debugging tools
+- **Modules**: Pinia for state management
+- **CSS**: Global stylesheet included
+
+## 📱 Browser Support
+
+- **Chrome** (latest)
+- **Firefox** (latest)
+- **Safari** (latest)
+- **Edge** (latest)
+- **Mobile browsers** (iOS Safari, Chrome Mobile)
+
+## 🚀 Performance Features
+
+- **Lazy Loading**: Images and components load on demand
+- **Debounced Search**: Reduces API calls during typing
+- **Efficient Pagination**: Only loads necessary data
+- **Optimized Images**: Responsive image handling
+- **Minimal Bundle**: Tree-shaking and code splitting
+
+## 🔒 Security Features
+
+- **Input Validation**: Client and server-side validation
+- **XSS Protection**: Sanitized user inputs
+- **Form Validation**: Secure checkout form handling
+
+## 📊 API Integration
+
+### DummyJSON Endpoints Used
 ```bash
-POST /auth/login
-{
-  "username": "emilys",
-  "password": "emilyspass"
-}
+GET /products              # Product catalog
+GET /products/search       # Product search
+GET /products/categories   # Categories list
+GET /products/category/*   # Category products
+GET /products/:id          # Single product
 ```
 
-### Products
-```bash
-GET /products                    # Get all products
-GET /products?limit=10&skip=0    # Pagination
-GET /products/search?q=phone     # Search
-GET /products/categories         # Get categories
-GET /products/category/smartphones # Get by category
-GET /products/1                  # Get single product
-```
+### Error Handling
+- **Network Errors**: Graceful fallbacks
+- **API Errors**: User-friendly messages
+- **Validation Errors**: Form-specific feedback
 
-### Demo Users
-Optional – only needed if you want to explore auth-protected routes.
-- **Username**: `emilys` / **Password**: `emilyspass`
-- **Username**: `michaelw` / **Password**: `michaelwpass`
+## 🤝 Contributing
 
-## ✅ Completion Criteria
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### Product Catalog (70 points)
-- [ ] Products load and display correctly (15 points)
-- [ ] Search functionality works (15 points)
-- [ ] Filters work (category, price, brand, rating) (20 points)
-- [ ] Pagination/infinite scroll (10 points)
-- [ ] Grid/list view toggle (5 points)
-- [ ] Responsive design (5 points)
+## 📄 License
 
-### Bug Fixes (20 points)
-- [ ] Cart calculation fixed (10 points)
-- [ ] Mobile navigation fixed (10 points)
-
-### Code Quality (10 points)
-- [ ] Clean, readable code (5 points)
-- [ ] Proper TypeScript usage (3 points)
-- [ ] Good component structure (2 points)
-
-## 🎯 Bonus Points (Optional - only if you have extra time and want to explore additional features)
-- [ ] Add loading animations
-- [ ] Implement advanced search (autocomplete, suggestions)
-- [ ] Add product comparison feature
-- [ ] Create wishlist functionality
-- [ ] Add product reviews/ratings
-- [ ] Implement advanced filtering (multiple selections)
-
-## 📋 Testing Your Implementation
-
-1. **Products Page**: Navigate to `/products` and verify all features work
-2. **Search**: Test search functionality with various queries
-3. **Filters**: Test each filter type and combinations
-4. **Cart**: Add products and verify correct total calculation
-5. **Mobile**: Test responsive design and navigation
-6. **Authentication**: Login and test protected routes
-
-## 📞 Need Help?
-
-If you encounter any issues:
-1. Check the browser console for errors
-2. Review the existing code structure
-3. Use the TypeScript types in `/types/index.ts`
-4. Refer to the Nuxt 3 documentation
-
-## 📤 Submission Instructions
-
-When you're done:
-- Push your solution to a public GitHub repository **OR**
-- Zip the project folder and send it to us via email
-
-Please make sure your name is included in the repo name or ZIP file.
-
-## 🏆 Good Luck!
-
-This assessment tests real-world frontend development skills including:
-- Vue 3 Composition API
-- Nuxt 3 framework
-- TypeScript
-- API integration
-- State management (Pinia)
-- Responsive design
-- Bug fixing
-- Code organization
-
-Take your time and focus on code quality. We'd rather see a well-implemented subset of features than a rushed implementation of everything.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

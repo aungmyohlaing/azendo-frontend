@@ -70,12 +70,12 @@
         <div v-else class="categories-grid">
           <NuxtLink
             v-for="category in categories"
-            :key="category"
-            :to="`/products?category=${category}`"
+            :key="category.slug"
+            :to="`/products?category=${category.slug}`"
             class="category-card"
           >
             <div class="category-icon">📦</div>
-            <h3>{{ formatCategoryName(category) }}</h3>
+            <h3>{{ formatCategoryName(category.name) }}</h3>
           </NuxtLink>
         </div>
       </div>
@@ -84,12 +84,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Product } from '~/types'
+import type { Category, Product } from '~/types'
 
 const { getFeaturedProducts, getCategories } = useProducts()
 
 const featuredProducts = ref<Product[]>([])
-const categories = ref<string[]>([])
+const categories = ref<Category[]>([])
 const loading = ref(true)
 const categoriesLoading = ref(true)
 const error = ref<string | null>(null)
@@ -105,7 +105,7 @@ onMounted(async () => {
   }
 
   try {
-    categories.value = await getCategories()
+    categories.value = await getCategories()    
   } catch (err) {
     console.error('Failed to load categories:', err)
   } finally {
@@ -114,7 +114,7 @@ onMounted(async () => {
 })
 
 const formatCategoryName = (category: string) => {
-  return category
+    return category
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')

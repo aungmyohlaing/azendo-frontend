@@ -124,4 +124,13 @@ export interface FilterParams extends PaginationParams {
   minPrice?: number
   maxPrice?: number
   brand?: string
+  sortBy?: string
+  order?: 'asc' | 'desc'
+}
+
+export interface ProductsResponse{
+  products: Product[]
+  total: number
+  skip: number
+  limit: number
 }

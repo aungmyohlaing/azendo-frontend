@@ -282,7 +282,7 @@ h6 { font-size: 1rem; }
   
   h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
+  h3 { font-size: 1.25rem; }  
 }
 
 /* Utilities */
@@ -305,6 +305,8 @@ h6 { font-size: 1rem; }
 .p-4 { padding: 2rem; }
 .flex { display: flex; }
 .flex-column { flex-direction: column; }
+.flex-grow-1 { flex-grow: 1; }
+.flex-wrap { flex-wrap: wrap; }
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
 .items-center { align-items: center; }
@@ -312,3 +314,4 @@ h6 { font-size: 1rem; }
 .gap-2 { gap: 1rem; }
 .gap-3 { gap: 1.5rem; }
 .hidden { display: none; }
+.h-40 { height: 40px; }
