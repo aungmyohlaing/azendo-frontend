@@ -12,7 +12,7 @@ export const useProductStore = defineStore('products', {
             minPrice: 0,
             maxPrice: 0,
             brands: [] as string[],
-            minRating: '',
+            minRating: 0,
         },
         searchQuery: '',
         sortBy: 'price-asc',
@@ -25,7 +25,8 @@ export const useProductStore = defineStore('products', {
 
     getters: {      
 
-        filteredProducts:(state) => {             
+        filteredProducts:(state) => {            
+            if (state.isLoading) return [];             
             let filterProducts = [...state.products]
             // filtering
             filterProducts = filterProducts.filter(product => {
@@ -38,7 +39,7 @@ export const useProductStore = defineStore('products', {
                 }
                 // Rating Filter
                 if (state.filters.minRating) {
-                if (product.rating < parseFloat(state.filters.minRating)) return false;
+                if (product.rating < state.filters.minRating) return false;
                 }
                 // Brand Filter (Multi Select)
                 if (state.filters.brands.length > 0) {
@@ -98,7 +99,7 @@ export const useProductStore = defineStore('products', {
                 minPrice: 0,
                 maxPrice: 0,
                 brands: [] as string[],
-                minRating: ''
+                minRating: 0
             }
             this.searchQuery = ''
             this.sortBy = 'price-asc'            
@@ -109,7 +110,7 @@ export const useProductStore = defineStore('products', {
         async fetchProducts(searchQuery: string, filters: any) {
             const { searchProducts, getProductsByCategory, getAllProducts } = useProducts()
             this.isLoading = true
-            this.error = null
+            this.error = null                                 
             try {    
                 let response: ProductsResponse
                 if (searchQuery) {
@@ -126,6 +127,7 @@ export const useProductStore = defineStore('products', {
             } catch (err) {
                 this.error = 'Failed to load products. Please try again.'
                 console.error('Error loading products:', err) 
+                this.isLoading = false
             } finally {
                 this.isLoading = false
             }

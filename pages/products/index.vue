@@ -86,11 +86,11 @@
 
     <!-- ======================================== Loading State ======================================== -->
      <!-- NOTE: Loading State -->
-    <Loading v-if="productStore.isLoading" message="Loading products..." />
 
+    <Loading v-if="productStore.isLoading" message="Loading products..." />
     <!-- Error State -->
     <!-- ======================================== Error State ======================================== -->
-    <div v-else-if="productStore.error" class="error-container">
+     <div v-else-if="productStore.error" class="error-container">
       <div class="error-content">
         <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -99,80 +99,80 @@
       </div>
       <button
         type="button"
-        @click="loadProducts"
+        @click="debounceApplyFilters"
         class="btn btn-primary"
       >
-        Try Again
+        Try Again 
       </button>
     </div>
 
-    <div v-else>
+    <div v-else-if="paginatedProducts.length > 0" >
       <!-- Products Grid/List -->
-    <!-- ======================================== Products Grid/List ======================================== -->   
-
-    <div v-if="paginatedProducts.length > 0" class="mt-4 mb-4">
-    <!-- Top Pagination -->
-      <div class="pagination-container-top">
-      <ProductPagination
-          :current-page="productStore.currentPage"
-          :total-items="productStore.totalProducts"
-          :items-per-page="productStore.productsPerPage"
-          :total-pages="productStore.totalPages"
-          @page-change="handlePageChange"
-        />
-      </div>
-      <!-- Grid View -->
-      <div
-        v-if="viewMode === 'grid'"
-        class="products-grid"
-      >
-        <ProductCard
-          v-for="product in paginatedProducts"
-          :key="product.id"
-          :product="product"
-        />
-      </div>
-
-      <!-- List View (hidden on mobile) -->
-      <div v-else class="list-view-container">
-        <ProductCardListView
-          v-for="product in paginatedProducts"
-          :key="product.id"
-          :product="product"
-        />
-      </div>
-
-      <!-- Bottom Pagination -->
-      <div class="pagination-container-bottom">
+      <!-- ======================================== Products Grid/List ======================================== -->   
+      <div class="mt-4 mb-4">
+      <!-- Top Pagination -->
+        <div class="pagination-container-top">
         <ProductPagination
-          :current-page="productStore.currentPage"
-          :total-items="productStore.totalProducts"
-          :items-per-page="productStore.productsPerPage"
-          :total-pages="productStore.totalPages"
-          @page-change="handlePageChange"
-        />
+            :current-page="productStore.currentPage"
+            :total-items="productStore.totalProducts"
+            :items-per-page="productStore.productsPerPage"
+            :total-pages="productStore.totalPages"
+            @page-change="handlePageChange"
+          />
+        </div>
+        <!-- Grid View -->
+        <div
+          v-if="viewMode === 'grid'"
+          class="products-grid"
+        >
+          <ProductCard
+            v-for="product in paginatedProducts"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+
+        <!-- List View (hidden on mobile) -->
+        <div v-else class="list-view-container">
+          <ProductCardListView
+            v-for="product in paginatedProducts"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+
+        <!-- Bottom Pagination -->
+        <div class="pagination-container-bottom">
+          <ProductPagination
+            :current-page="productStore.currentPage"
+            :total-items="productStore.totalProducts"
+            :items-per-page="productStore.productsPerPage"
+            :total-pages="productStore.totalPages"
+            @page-change="handlePageChange"
+          />
+        </div>
       </div>
     </div>
 
-    <!-- No Results -->
-    <!-- ======================================== No Results ======================================== -->
+  <!-- No Results -->
+  <!-- ======================================== No Results ======================================== -->
     <div v-else class="no-results-container">
-      <div class="no-results-content">
-        <svg class="no-results-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-        </svg>
-        <p class="no-results-title">No products found</p>
-        <p class="no-results-subtitle">Try adjusting your search or filters</p>
-      </div>
-      <button
-        @click="clearAllFilters"
-        class="btn btn-primary"
-      >
-        Clear Filters
-      </button>
+    <div class="no-results-content">
+      <svg class="no-results-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+      </svg>
+      <p class="no-results-title">No products found</p>
+      <p class="no-results-subtitle">Try adjusting your search or filters</p>
     </div>
-    </div>
+    <button
+      @click="clearAllFilters"
+      class="btn btn-primary"
+    >
+      Clear Filters
+    </button>
   </div>
+  
+</div>
 </template>
 
 <script setup lang="ts">
@@ -223,12 +223,12 @@ const computedMaxPrice = computed(() => {
 })
 
 const hasActiveFilters = computed(() => {
-  return productStore.filters.category ||
+  return !!(productStore.filters.category ||
     productStore.filters.minPrice !== 0 ||
     productStore.filters.maxPrice !== computedMaxPrice.value ||
     productStore.filters.brands.length > 0 ||
     productStore.filters.minRating ||
-    productStore.searchQuery
+    productStore.searchQuery)
 })
 
 const activeFilterBadges = computed(() => {
@@ -265,6 +265,7 @@ const paginatedProducts = computed(() => {
 
 // NOTE: Debounce & Input
 const debounceApplyFilters = () => {
+  productStore.isLoading = true
   if (filterDebounce.value) clearTimeout(filterDebounce.value)
   filterDebounce.value = setTimeout(() => {
     applyFilters()
@@ -275,17 +276,17 @@ const loadCategories = async () => {
   await categoryStore.fetchCategories()
 }
 
-const loadProducts = async () => {  
-  await productStore.fetchProducts(productStore.searchQuery, productStore.filters)
+const loadProducts = async () => {       
+  await productStore.fetchProducts(productStore.searchQuery, productStore.filters)    
 }
 
 const handlePageChange = (page: number) => {
-  productStore.setCurrentPage(page)
-  loadProducts()
+  productStore.setCurrentPage(page)  
+  updateURL()
 }
 
 const updateFilters = (newFilters: typeof productStore.filters) => {
-  productStore.updateFilters(newFilters)
+  productStore.updateFilters(newFilters)  
   debounceApplyFilters()
 }
 
@@ -294,9 +295,9 @@ const updateSortBy = (newSortBy: string) => {
   debounceApplyFilters()
 }
 
-const applyFilters = () => {
+const applyFilters = () => {    
   productStore.setCurrentPage(1)  
-  updateURL()
+  updateURL()  
 }
 
 const clearAllFilters = () => {
@@ -321,7 +322,7 @@ const removeFilter = (key: string) => {
       productStore.filters.brands = []
       break
     case 'rating':
-      productStore.filters.minRating = ''
+      productStore.filters.minRating = 0
       break
   }
   productStore.setCurrentPage(1)
@@ -338,7 +339,7 @@ const updateURL = () => {
     query.maxPrice = Math.round(computedMaxPrice.value).toString()
   }  
   if (productStore.filters.brands.length > 0) query.brands = productStore.filters.brands.join(',')
-  if (productStore.filters.minRating) query.minRating = productStore.filters.minRating
+  if (productStore.filters.minRating) query.minRating = productStore.filters.minRating.toString()
   if (productStore.sortBy !== 'price-asc') query.sortBy = productStore.sortBy
   
   // Use replace to avoid adding to browser history for filter changes
@@ -353,7 +354,7 @@ const loadFromURL = () => {
   if (query.minPrice) productStore.filters.minPrice = Number(query.minPrice)
   if (query.maxPrice) productStore.filters.maxPrice = Number(query.maxPrice)
   if (query.brands) productStore.filters.brands = (query.brands as string).split(',')
-  if (query.minRating) productStore.filters.minRating = query.minRating as string
+  if (query.minRating) productStore.filters.minRating = Number(query.minRating)
   if (query.sortBy) productStore.sortBy = query.sortBy as string
 }
 

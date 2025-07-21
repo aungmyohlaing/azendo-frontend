@@ -71,16 +71,11 @@
                 </svg>
                 Minimum Rating
               </label>
-              <select
+              <StarRating
                 v-model="localFilters.minRating"
-                @change="emitFilters"
-                class="filter-select"
-              >
-                <option value="">Any Rating</option>
-                <option v-for="option in ratingOptions" :key="option.value" :value="option.value">
-                  {{ option.label }}
-                </option>
-              </select>
+                :maxStars="5"
+                @update:modelValue="emitFilters"
+              />              
             </div>
 
             <!-- Sort Options -->
@@ -145,7 +140,7 @@
 
 <script setup lang="ts">
 import type { Category } from '~/types'
-import { SORT_OPTIONS, RATING_OPTIONS } from '~/constants'
+import { SORT_OPTIONS } from '~/constants'
 
 interface Props {
   categories: Category[]
@@ -155,7 +150,7 @@ interface Props {
     minPrice: number
     maxPrice: number
     brands: string[]
-    minRating: string
+    minRating: number
   }
   sortBy: string
   computedMaxPrice: number
@@ -175,7 +170,6 @@ const filtersOpen = ref(true)
 const localFilters = reactive({ ...props.filters })
 const localSortBy = ref(props.sortBy)
 const sortOptions = SORT_OPTIONS
-const ratingOptions = RATING_OPTIONS
 
 // Watch for prop changes and update local state
 watch(() => props.filters, (newFilters) => {
@@ -205,9 +199,6 @@ const clearAllFilters = () => {
 </script>
 
 <style scoped>
-/* ========================================
-   FILTERS SECTION
-   ======================================== */
 .filter-section {
   background: white;
   border: 1px solid var(--border-color);

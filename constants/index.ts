@@ -45,4 +45,4 @@ export const RATING_OPTIONS = [
 ]
 
 export const PRODUCTS_PER_PAGE = 12
-export const SEARCH_DEBOUNCE_TIME = 300
+export const SEARCH_DEBOUNCE_TIME = 500
