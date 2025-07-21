@@ -100,6 +100,18 @@ Application-wide constants for configuration and maintainability:
 - **Environment Flexibility**: Easy to switch between development/production
 - **Reduced Magic Numbers**: Meaningful constant names instead of hardcoded values
 
+## ⚡ Technical Decisions
+
+### Why All Products Are Loaded at Once
+
+- The **DummyJSON API does not support server-side filtering** for price and brands.
+- To provide accurate and dynamic filter options (e.g., price range slider, available brands), **all products are loaded at once** on the client.
+- **Filtering and sorting** (by price, brand, rating, etc.) are performed client-side for a seamless user experience.
+- **Pagination** is also handled client-side, after filtering.
+- This approach ensures that filter options always reflect the actual data, and users can combine filters in any way.
+
+> **Note:** For large real-world datasets, server-side filtering and pagination would be preferred for performance.
+
 ### Styling
 - **Custom CSS** - Tailwind-inspired utility classes
 - **CSS Variables** - Consistent design system
