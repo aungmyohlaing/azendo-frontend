@@ -66,7 +66,7 @@
 
     <!-- ======================================== Filters Section ======================================== -->
     <ProductFilters
-      :categories="categories"
+      :categories="categoryStore.categories"
       :available-brands="productStore.availableBrands"
       :filters="productStore.filters"
       :sort-by="productStore.sortBy"
@@ -86,16 +86,16 @@
 
     <!-- ======================================== Loading State ======================================== -->
      <!-- NOTE: Loading State -->
-    <Loading v-if="isLoading" message="Loading products..." />
+    <Loading v-if="productStore.isLoading" message="Loading products..." />
 
     <!-- Error State -->
     <!-- ======================================== Error State ======================================== -->
-    <div v-else-if="error" class="error-container">
+    <div v-else-if="productStore.error" class="error-container">
       <div class="error-content">
         <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
         </svg>
-        <p class="error-message">{{ error }}</p>
+        <p class="error-message">{{ productStore.error }}</p>
       </div>
       <button
         type="button"
@@ -176,12 +176,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Category } from '~/types' 
 import ProductCardListView from '~/components/ProductCardListView.vue'
 import { ref, onMounted } from 'vue'
 import { SEARCH_DEBOUNCE_TIME } from '~/constants'
 import { useProductStore } from '~/stores/products'
-
+import { useCategoryStore } from '~/stores/categories'
 
 // Page meta
 definePageMeta({
@@ -191,22 +190,18 @@ definePageMeta({
 // ======================================== Composables & Data ========================================
 
 // NOTE: Composables
-// Composables
-const { getCategories} = useProducts()
 
 // Route and router
 const route = useRoute()
 const router = useRouter()
 
 // Reactive state
-const categories = ref<Category[]>([])
-const isLoading = ref(false)
-const error = ref<string | null>(null)
 const viewMode = ref<'grid' | 'list'>('grid')
 const filterDebounce = ref<NodeJS.Timeout | null>(null)
 
 
 const productStore = useProductStore()
+const categoryStore = useCategoryStore()
 
 // ======================================== Computed Properties ========================================
 
@@ -276,16 +271,12 @@ const debounceApplyFilters = () => {
   }, SEARCH_DEBOUNCE_TIME)
 }
 
-const loadCategories = async () => {
-  try {
-    categories.value = await getCategories()
-  } catch (err) {
-    categories.value = []
-  }
+const loadCategories = async () => {  
+  await categoryStore.fetchCategories()
 }
 
 const loadProducts = async () => {  
-  productStore.fetchProducts(productStore.searchQuery, productStore.filters)
+  await productStore.fetchProducts(productStore.searchQuery, productStore.filters)
 }
 
 const handlePageChange = (page: number) => {
@@ -355,7 +346,7 @@ const updateURL = () => {
 }
 
 const loadFromURL = () => {
-  const query = route.query
+  const query = route.query  
   
   if (query.q) productStore.searchQuery = query.q as string
   if (query.category) productStore.filters.category = query.category as string
@@ -401,52 +392,6 @@ watch(() => route.query, () => {
 
 <style scoped>
 
-/* .search-input-wrapper {
-  position: relative;  
-  width: 400px;
-}
-
-.search-input {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;  
-}
-
-.search-icon {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--text-light);
-}
-
-.search-svg {
-  width: 1.25rem;
-  height: 1.25rem;
-} */
-
-/* .clear-search-btn {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--text-light);
-  cursor: pointer;
-  padding: 0.25rem;
-}
-
-.clear-search-btn:hover {
-  color: var(--text-color);
-}
-
-.clear-svg {
-  width: 1.25rem;
-  height: 1.25rem;
-} */
-
-
 .view-btn-active {
   background-color: var(--primary-color);
   color: white;
@@ -462,18 +407,6 @@ watch(() => route.query, () => {
 /* ========================================
    LOADING AND ERROR STATES
    ======================================== */
-.loading-text {
-  margin-left: 0.5rem;
-  color: var(--text-light);
-}
-
-.loading-more-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
-  color: var(--text-light);
-}
 
 .error-container {
   text-align: center;

@@ -78,8 +78,7 @@ const handleSearch = () => {
         } 
 
         const query = searchQuery.value.toLowerCase()
-        const result = props.products.filter(product => {          
-            console.log('🚀 ~ searchDebounce.value=setTimeout ~ product:', product)  
+        const result = props.products.filter(product => {                      
             return product.title.toLowerCase().includes(query) ||
             	(product.brand ? product.brand.toLowerCase().includes(query) : false) ||
                 product.category.toLowerCase().includes(query)

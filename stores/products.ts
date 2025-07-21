@@ -18,7 +18,7 @@ export const useProductStore = defineStore('products', {
         sortBy: 'price-asc',
         currentPage: 1,
         productsPerPage: PRODUCTS_PER_PAGE,
-        totalProducts: 0,
+        totalProducts: 0,   
         isLoading: false,
         error: null as string | null,
     }),
@@ -113,7 +113,7 @@ export const useProductStore = defineStore('products', {
             try {    
                 let response: ProductsResponse
                 if (searchQuery) {
-                response = await searchProducts(searchQuery)
+                response = await searchProducts(searchQuery)                
                 } else if (filters.category) {
                 response = await getProductsByCategory(filters.category)
                 } else {

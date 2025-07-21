@@ -80,6 +80,10 @@ Centralized state management using Pinia stores for better data flow:
 - **Sorting Options**: Price, rating, and popularity sorting
 - **API Integration**: Product fetching and caching
 
+#### **Categories Store** (`stores/categories.ts`)
+- **Category Data**: Centralized category list management
+- **API Integration**: Category fetching and caching
+
 #### **Benefits of Store Splitting:**
 - **Separation of Concerns**: Each store handles specific domain logic
 - **Data Consistency**: Centralized state prevents data duplication
