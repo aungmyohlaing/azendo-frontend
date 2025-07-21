@@ -219,6 +219,7 @@ npm run preview      # Preview production build
 - [ ] Type in the search bar to filter products
 - [ ] Verify debouncing works (no immediate API calls)
 - [ ] Test with various search terms (phones, laptops, etc.)
+- [ ] Type in the search bar and press enter to see results
 
 #### Filtering System
 - [ ] **Category Filter**: Select different categories from dropdown
