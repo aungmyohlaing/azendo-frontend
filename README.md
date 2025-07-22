@@ -36,7 +36,6 @@ A modern, responsive e-commerce application built with **Nuxt 3**, featuring a c
 - **Responsive Layout**: Works on all device sizes
 - **Loading Animations**: Smooth user experience
 - **Error Handling**: User-friendly error messages
-- **Accessibility**: Keyboard navigation and screen reader support
 
 ## 🛠️ Technologies Used
 
