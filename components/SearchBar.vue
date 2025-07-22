@@ -103,7 +103,7 @@ const handleKeydown = (event: KeyboardEvent) => {
         event.preventDefault()
         if (selectedIndex.value >= 0 && searchResults.value[selectedIndex.value]) {
             selectProduct(searchResults.value[selectedIndex.value])
-        } else {
+        } else if (searchResults.value.length > 0) {
             navigateToSearch()
         }
         break

@@ -393,6 +393,10 @@ watch(() => route.query, () => {
 
 <style scoped>
 
+/* ========================================
+   TOGGLE VIEW BUTTONS
+   ======================================== */
+
 .view-btn-active {
   background-color: var(--primary-color);
   color: white;
@@ -440,39 +444,6 @@ watch(() => route.query, () => {
 }
 
 /* ========================================
-   END OF RESULTS
-   ======================================== */
-.end-results-container {
-  text-align: center;
-  padding: 2rem 0;
-}
-
-.end-results-content {
-  color: var(--text-light);
-}
-
-.end-results-icon {
-  width: 2rem;
-  height: 2rem;
-  margin: 0 auto 0.5rem;
-  color: var(--success-color);
-}
-
-.end-results-text {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-/* ========================================
-   LOAD MORE TRIGGER
-   ======================================== */
-.load-more-trigger {
-  height: 1px;
-  width: 100%;
-  margin: 1rem 0;
-}
-
-/* ========================================
    NO RESULTS
    ======================================== */
 .no-results-container {
@@ -500,6 +471,10 @@ watch(() => route.query, () => {
 .no-results-subtitle {
   font-size: 0.875rem;
 }
+
+/* ========================================
+   PRICE SLIDER
+   ======================================== */
 
 .price-slider-range {
   padding: 0.5rem 0;
